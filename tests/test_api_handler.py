@@ -3,8 +3,6 @@ from unittest.mock import patch, MagicMock
 from app.api_handler import call_api
 
 class TestAPIHandler(unittest.TestCase):
-    
-    
     @patch('app.api_handler.requests.get')
     def test_call_api_success(self, mock_get):
         mock_response_1 = MagicMock()

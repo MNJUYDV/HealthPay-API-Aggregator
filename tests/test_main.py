@@ -22,7 +22,6 @@ class TestMain(unittest.TestCase):
 
     @patch('app.main.call_api')
     def test_get_healthcare_info_failure(self, mock_call_api):
-        # Simulate a failure by raising an exception in the mocked call_api function
         mock_call_api.side_effect = Exception("API Error")
 
         response = self.client.get("/healthcare/123")
