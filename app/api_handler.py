@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 import requests
-from .config import API_URLS
+import sys
+import os
+sys.path.append(os.path.dirname(__file__))
+from config import API_URLS
 
 class APIHandler(ABC):
     @abstractmethod
@@ -33,7 +36,7 @@ class APIHandlerFactory:
                         responses.extend(api_response)
                         break  # Break out of retry loop if successful response received
                 except Exception as e:
-                    print(f"Error calling API {url}: {e}")
+                    print(f"Exception Check ..Error calling API {url}: {e}")
                 retries += 1
         return responses
 

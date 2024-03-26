@@ -17,18 +17,12 @@ class TestAPIHandlerFactory(unittest.TestCase):
             []
         ]
         
-        # Set side effect for the mock create_api_handler function
         mock_api_handler = MagicMock()
         mock_api_handler.call_api.side_effect = mock_responses
         mock_create_api_handler.return_value = mock_api_handler
 
-        # Define API URLs
         API_URLS = ["https://api1.com", "https://api2.com"]
-
-        # Call the function under test
         responses = APIHandlerFactory.call_apis(123)
-
-        # Assertions
         self.assertEqual(len(responses), 2)
         self.assertEqual(responses[0]["oop_max"], 10000)
         self.assertEqual(responses[1]["copay"], 1500)

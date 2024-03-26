@@ -19,7 +19,6 @@ class TestErrorHandler(unittest.TestCase):
         self.assertEqual(cm.exception.status_code, 500)
 
     def test_handle_api_errors_incorrect_data_type(self):
-        # Test case for incorrect data type in 'oop_max'
         responses_incorrect_type = [{"oop_max": "10000", "remaining_oop_max": 9000, "copay": 1000}]
         with self.assertRaises(HTTPException) as cm:
             handle_api_errors(responses_incorrect_type)
@@ -28,11 +27,10 @@ class TestErrorHandler(unittest.TestCase):
 
 
     def test_handle_api_errors_inconsistent_structure(self):
-        # Test case for inconsistent JSON structures
         responses_inconsistent_structure = [
-            {"oop_max": 10000, "remaining_oop_max": 9000, "copay": 1000},  # Response 1
-            {"oop_max": 15000, "remaining_oop_max": 9000},  # Response 2 missing 'copay'
-            {"oop_max": 20000, "copay": 2000}  # Response 3 missing 'remaining_oop_max'
+            {"oop_max": 10000, "remaining_oop_max": 9000, "copay": 1000}, 
+            {"oop_max": 15000, "remaining_oop_max": 9000},  
+            {"oop_max": 20000, "copay": 2000}  
         ]
         with self.assertRaises(HTTPException) as cm:
             handle_api_errors(responses_inconsistent_structure)

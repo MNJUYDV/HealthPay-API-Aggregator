@@ -43,7 +43,6 @@ Run the FastAPI server:
 ```
 uvicorn app.main:app --reload
 ```
-Navigate to http://localhost:8000/docs in your web browser to access the Swagger UI.
 
 Use the /healthcare/{member_id} endpoint to fetch healthcare information for a specific member by providing the member ID as a parameter.
 
@@ -51,6 +50,10 @@ Use the /healthcare/{member_id} endpoint to fetch healthcare information for a s
 To run the tests, execute the following command:
 
 ```
-python -m unittest discover -s tests
+python manage.py
+
+or 
+
+run individual test file
 ```
 
