@@ -1,7 +1,6 @@
 from fastapi import HTTPException
 
 def validate_response_data(responses: list) -> None:
-    # Validate data types for 'oop_max', 'remaining_oop_max', and 'copay'
     for response in responses:
         for field in ['oop_max', 'remaining_oop_max', 'copay']:
             if field in response and not isinstance(response[field], int):
@@ -9,8 +8,7 @@ def validate_response_data(responses: list) -> None:
 
 def ensure_coherent_response_structures(responses: list) -> None:
     response_structures = [set(response.keys()) for response in responses]
-
-    # Check if all response structures are the same
+    
     if len(set(map(tuple, response_structures))) != 1:
         raise HTTPException(status_code=500, detail="Data coherence issue: Inconsistent JSON structures in API responses")
 
