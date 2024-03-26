@@ -50,10 +50,15 @@ class APIHandlerFactory:
             raise ValueError("Unsupported API URL")
 
     @staticmethod
-    def call_apis(member_id: int) -> List[Optional[dict]]:
+    def call_apis(member_id: int, max_retries: int = 2) -> List[Optional[dict]]:
         responses = []
         for url in API_URLS:
+            retries = 0
             api_handler = APIHandlerFactory.create_api_handler(url)
-            responses.extend(api_handler.call_api(member_id))
-        print(responses)
+            while retries < max_retries:
+                api_response = api_handler.call_api(member_id)
+                if api_response:
+                    responses.extend(api_response)
+                    break  # Break out of retry loop if successful response received
+                retries += 1
         return responses

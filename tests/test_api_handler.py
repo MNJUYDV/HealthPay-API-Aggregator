@@ -13,6 +13,7 @@ class TestAPIHandlerFactory(unittest.TestCase):
         mock_responses = [
             [{"oop_max": 10000, "remaining_oop_max": 9000, "copay": 1000}],
             [{"oop_max": 15000, "remaining_oop_max": 8000, "copay": 1500}],
+            [],
             []
         ]
         
