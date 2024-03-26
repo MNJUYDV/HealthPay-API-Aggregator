@@ -1,9 +1,6 @@
 from fastapi import FastAPI, HTTPException
-import sys
-import os
-sys.path.append(os.path.dirname(__file__))
-from utils import coalesce_data
-from api_handler import APIHandlerFactory
+from .utils import coalesce_data
+from .api_handler import APIHandlerFactory
 
 app = FastAPI()
 
@@ -18,5 +15,5 @@ async def get_healthcare_info(member_id: int) -> dict:
     except HTTPException as e:
         raise e 
     except Exception as e:
-        print(f"Exception Check .. Error processing request for member {member_id}: {e}")
+        print(f"Exception Handled..Error processing request for member {member_id}: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")

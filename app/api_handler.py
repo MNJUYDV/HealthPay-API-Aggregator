@@ -1,10 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
+import time
 import requests
-import sys
-import os
-sys.path.append(os.path.dirname(__file__))
-from config import API_URLS
+from .config import API_URLS, MAX_RETRIES, DELAY_BETWEEN_RETRIES
 
 class APIHandler(ABC):
     @abstractmethod
@@ -24,7 +22,7 @@ class APIHandlerFactory:
             raise ValueError("Unsupported API URL")
 
     @staticmethod
-    def call_apis(member_id: int, max_retries: int = 3) -> List[Optional[dict]]:
+    def call_apis(member_id: int, max_retries: int = MAX_RETRIES) -> List[Optional[dict]]:
         responses = []
         for url in API_URLS:
             retries = 0
@@ -36,7 +34,8 @@ class APIHandlerFactory:
                         responses.extend(api_response)
                         break  # Break out of retry loop if successful response received
                 except Exception as e:
-                    print(f"Exception Check ..Error calling API {url}: {e}")
+                    print(f"Exception Handled ..Error calling API {url}: {e}")
+                    time.sleep(DELAY_BETWEEN_RETRIES)
                 retries += 1
         return responses
 

@@ -8,7 +8,7 @@ The HealthPay API Aggregator is a service that fetches healthcare information fo
 
 **Data Coalescing**: Aggregates data from different APIs to provide accurate information to the user.
 
-**Error Handling**: Handles common error cases, such as API failures or downtime, gracefully.
+**Error Handling**: Handles common error cases, such as API failures or downtime with retries, gracefully.
 
 **Flexibility**: Easily extendable to add additional APIs or modify existing ones.
 
@@ -57,3 +57,10 @@ or
 run individual test file
 ```
 
+Assumptions:
+
+1) Data Error Handling: In case of conflicting responses or unexpected data types from APIs, the system will flag these occurrences as data errors.
+
+2) Authentication and Authorization: The system does not require authentication or authorization for API access.
+
+3) Retry Mechanism: In the event of API failure due to downtime, the system implements a retry mechanism with configurable delay times. These delays can be adjusted via the configuration file to optimize retry strategies.
