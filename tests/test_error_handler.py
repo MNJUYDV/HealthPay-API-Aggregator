@@ -1,4 +1,9 @@
 import unittest
+import sys
+import os
+
+# Add the parent directory of 'tests' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app.error_handler import handle_api_errors
 from fastapi import HTTPException
 

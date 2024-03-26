@@ -1,27 +1,59 @@
+from abc import ABC, abstractmethod
 from typing import List, Optional
 import requests
-from app.config import API_URLS, MAX_RETRIES, DELAY_BETWEEN_RETRIES
-from app.error_handler import handle_api_errors
-from fastapi import HTTPException
-import time
+from .config import API_URLS
+from .error_handler import handle_api_errors
 
-def call_api(member_id: int) -> List[Optional[dict]]:
-    responses = []
+class APIHandler(ABC):
+    @abstractmethod
+    def call_api(self, member_id: int) -> List[Optional[dict]]:
+        pass
 
-    for url in API_URLS:
-        retries = 0
-        while retries < MAX_RETRIES:
-            try:
-                response = requests.get(f"{url}?member_id={member_id}")
-                if response.status_code == 200:
-                    responses.append(response.json())
-                    break  # Exit the retry loop if request is successful
-            except Exception as e:
-                print(f"Error accessing {url}: {e}")
-            retries += 1
-            time.sleep(DELAY_BETWEEN_RETRIES)  # Wait for specified delay before retrying
+class API1Handler(APIHandler):
+    def call_api(self, member_id: int) -> List[Optional[dict]]:
+        # Implement API 1 logic here
+        response = requests.get(f"https://api1.com?member_id={member_id}")
+        if response.status_code == 200:
+            return [response.json()]
+        else:
+            return []
 
-    if responses:
-        handle_api_errors(responses)
+class API2Handler(APIHandler):
+    def call_api(self, member_id: int) -> List[Optional[dict]]:
+        # Implement API 2 logic here
+        response = requests.get(f"https://api2.com?member_id={member_id}")
+        if response.status_code == 200:
+            return [response.json()]
+        else:
+            return []
 
-    return responses
+class API3Handler(APIHandler):
+    def call_api(self, member_id: int) -> List[Optional[dict]]:
+        # Implement API 3 logic here
+        response = requests.get(f"https://api3.com?member_id={member_id}")
+        print("here response 3", response)
+        if response.status_code == 200:
+            return [response.json()]
+        else:
+            return []
+
+class APIHandlerFactory:
+    @staticmethod
+    def create_api_handler(url: str) -> APIHandler:
+        if url == "https://api1.com":
+            return API1Handler()
+        elif url == "https://api2.com":
+            return API2Handler()
+        elif url == "https://api3.com":
+            return API3Handler()
+        else:
+            raise ValueError("Unsupported API URL")
+
+    @staticmethod
+    def call_apis(member_id: int) -> List[Optional[dict]]:
+        responses = []
+        for url in API_URLS:
+            api_handler = APIHandlerFactory.create_api_handler(url)
+            responses.extend(api_handler.call_api(member_id))
+        print(responses)
+        return responses
